@@ -769,6 +769,11 @@
                                                 <constraint firstAttribute="width" constant="65" id="26d-Zj-Drj"/>
                                                 <constraint firstAttribute="height" constant="65" id="Xbh-ay-NE5"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="32.5"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments xxxxxxxxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uYt-oN-yui">
                                             <rect key="frame" x="106" y="89.666666666666671" width="150" height="19.333333333333329"/>
@@ -1311,8 +1316,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="330"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4XP-cR-wNV" userLabel="details">
-                                                    <rect key="frame" x="20" y="0.0" width="369" height="749"/>
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4XP-cR-wNV" userLabel="details">
+                                                    <rect key="frame" x="25" y="0.0" width="369" height="749"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uq0-d4-dpo">
                                                             <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
@@ -1325,9 +1330,8 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="datails" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QSc-3Q-8uh">
-                                                            <rect key="frame" x="0.0" y="38" width="374" height="145"/>
+                                                            <rect key="frame" x="0.0" y="38" width="349" height="145"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="374" id="8G0-x0-516"/>
                                                                 <constraint firstAttribute="height" constant="145" id="lQb-lQ-gew"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
@@ -1444,7 +1448,9 @@
                                                     </subviews>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
+                                                        <constraint firstItem="QSc-3Q-8uh" firstAttribute="leading" secondItem="4XP-cR-wNV" secondAttribute="leading" constant="20" id="0sM-FR-mC9"/>
                                                         <constraint firstItem="QSc-3Q-8uh" firstAttribute="leading" secondItem="4XP-cR-wNV" secondAttribute="leading" id="EGN-DD-OEb"/>
+                                                        <constraint firstAttribute="trailing" secondItem="QSc-3Q-8uh" secondAttribute="trailing" constant="20" id="Q9I-Fg-xRB"/>
                                                         <constraint firstItem="QSc-3Q-8uh" firstAttribute="top" secondItem="uq0-d4-dpo" secondAttribute="bottom" constant="8" id="QOc-Gh-0K5"/>
                                                         <constraint firstItem="uq0-d4-dpo" firstAttribute="top" secondItem="4XP-cR-wNV" secondAttribute="top" id="eM9-7s-06O"/>
                                                         <constraint firstItem="Xel-ua-bce" firstAttribute="leading" secondItem="4XP-cR-wNV" secondAttribute="leading" id="iMI-YC-v8B"/>
@@ -1838,7 +1844,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OZU-7y-0Hs">
-                                                            <rect key="frame" x="215" y="20" width="176" height="51"/>
+                                                            <rect key="frame" x="198" y="20" width="176" height="51"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" name="TabIconColor"/>
                                                             <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="18"/>
@@ -1847,7 +1853,7 @@
                                                             </state>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                    <real key="value" value="20"/>
+                                                                    <real key="value" value="25.5"/>
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                             <connections>
@@ -1995,6 +2001,11 @@
                                                 <constraint firstAttribute="height" constant="75" id="9o4-P8-ycS"/>
                                                 <constraint firstAttribute="width" constant="75" id="Ja0-gh-AD1"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="37.5"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minshen Lu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bee-5c-ccf">
                                             <rect key="frame" x="116" y="25" width="160" height="22.666666666666671"/>
@@ -3403,13 +3414,23 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZPh-L5-sJR" userLabel="Pick Image View">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="299.33333333333331"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Ho6-SH-oIV">
-                                                        <rect key="frame" x="0.0" y="1.6666666666666572" width="374" height="296.33333333333326"/>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pictureGround" translatesAutoresizingMaskIntoConstraints="NO" id="Ho6-SH-oIV">
+                                                        <rect key="frame" x="0.0" y="0.0" width="374" height="299.33333333333331"/>
                                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.1617074631" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="50"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O1G-Ag-ygI">
+                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O1G-Ag-ygI">
                                                         <rect key="frame" x="0.0" y="0.0" width="374" height="299.33333333333331"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="25"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="chooseBttnTapped:" destination="c3X-4E-0M9" eventType="touchUpInside" id="BiC-dQ-FHk"/>
                                                         </connections>
@@ -3427,6 +3448,11 @@
                                                     <constraint firstAttribute="trailing" secondItem="Ho6-SH-oIV" secondAttribute="trailing" id="slw-bs-jd2"/>
                                                     <constraint firstAttribute="width" secondItem="ZPh-L5-sJR" secondAttribute="height" multiplier="10:8" id="wrL-DP-Yvj"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="50"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="t18-xH-h37" userLabel="Date Stack View">
                                                 <rect key="frame" x="0.0" y="319.33333333333331" width="374" height="52.666666666666686"/>
@@ -4104,6 +4130,7 @@
         <image name="person.crop.circle.fill" catalog="system" width="128" height="121"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="photo.fill" catalog="system" width="128" height="93"/>
+        <image name="pictureGround" width="906" height="706"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="suit.heart.fill" catalog="system" width="128" height="109"/>
         <image name="tabBarItem:fhk-oD-cde:image" width="128" height="72"/>
