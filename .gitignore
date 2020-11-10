@@ -1,5 +1,6 @@
 # OS X
 .DS_Store
+.DS_Store*
 .AppleDouble
 .LSOverride
 Icon
@@ -24,6 +25,7 @@ DerivedData
 .idea/
 *.hmap
 *.xcscmblueprint
+*.xcuserstate
 
 # Windows
 Thumbs.db
@@ -36,3 +38,4 @@ $RECYCLE.BIN/
 
 # Project
 Pods/
+Podfile.lock

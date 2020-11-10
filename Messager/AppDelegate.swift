@@ -8,21 +8,29 @@
 import UIKit
 import Firebase
 import IQKeyboardManagerSwift
+import LocalAuthentication
+
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Override point for customization after application launch.
         FirebaseApp.configure()
         
-        // Configure Keyboard Manager
-        IQKeyboardManager.shared.enable = true
-        IQKeyboardManager.shared.enableAutoToolbar = false
-        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        // _. Configure Keyboard Manager
+//        IQKeyboardManager.shared.enable = true
+//        IQKeyboardManager.shared.enableAutoToolbar = false
+//        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        
+        // _. Configure if seeding the Activity DB
+//        let _ = DBSeeding(true)
+        
+        
         
         return true
     }

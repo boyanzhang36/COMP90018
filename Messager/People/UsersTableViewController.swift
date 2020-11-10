@@ -36,6 +36,15 @@ class UsersTableViewController: UITableViewController {
         downloadUsers()
     
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // toggle tabbar
+        print("😡")
+        if let vcp = self.navigationController?.parent as? TabViewController {
+            print("😃")
+            vcp.showTabBar()
+        }
+    }
 
     // 返回 cells 的个数
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,7 +56,6 @@ class UsersTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! UserTableViewCell
-        print("-x _")
         let  user = searchController.isActive ? filteredUsers[indexPath.row] : allUsers[indexPath.row]
         cell.configure(user: user)
         return cell
@@ -57,10 +65,41 @@ class UsersTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let user = searchController.isActive ? filteredUsers[indexPath.row] : allUsers[indexPath.row]
         
-        // chat
-        let chatId = startChat(user1: User.currentUser!, user2: user)
-        print("_x start chat", chatId)
+        // N: 没有 actId 的群聊。就自己生成一个
+        // O: 1v1 聊天，通过两个 UserId 生成 actId
+        // 其他：直接输入 actId
         
+        startActivityChat(users: [User.currentUser!, user], activityId: "O")
+//        // chat
+//        let activityId = "N"
+//        let chatId = startChat(users: [User.currentUser!, user], activityId: activityId)
+//        print("_x start chat", chatId)
+//
+//        // 打开一个 chat room 界面
+//        let privateChatView = ChatViewController(chatId: chatId, recipientId: [user.id], recipientName: [user.username])
+//        privateChatView.hidesBottomBarWhenPushed = true
+//        navigationController?.pushViewController(privateChatView, animated: true)
+    }
+    
+    func startActivityChat(users:[User], activityId: String) {
+        let chatId = startChat(users: users, activityId: activityId, activityTitle: "")
+        print("_x start chat", chatId)
+        var recipientId : [String] = []
+        var recipientName : [String] = []
+        for user in users {
+            if user.id != User.currentId {
+                recipientId.append(user.id)
+                recipientName.append(user.username)
+            }
+        }
+        // 打开一个 chat room 界面
+        var isActivity = true
+        if activityId == "O" {
+            isActivity = false
+        }
+        let privateChatView = ChatViewController(chatId: chatId, recipientId: recipientId, recipientName: recipientName, isActivity: isActivity)
+        privateChatView.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(privateChatView, animated: true)
     }
         
     private func downloadUsers() {
@@ -108,3 +147,4 @@ extension UsersTableViewController: UISearchResultsUpdating {
         filteredContentForSearchText(searchText: searchController.searchBar.text!)
     }
 }
+

@@ -24,12 +24,6 @@ class PostViewController2: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
-        
-//        for a in Activity.Catogory.allCases{
-//            print(a)
-//        }
         print(categories.count, current.count)
         setupUI()
     }
@@ -46,7 +40,6 @@ class PostViewController2: UIViewController {
     // MARK:- IBActions
     @IBAction func backBttnTapped(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
-        print("wwwdw")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -58,11 +51,14 @@ class PostViewController2: UIViewController {
         if segue.identifier == "collectionToPost" {
             let destinationVC = segue.destination as! PostViewController1
             let sd = sender as! CategoryCollectionViewCell
-            destinationVC.postCategory = sd.category.name
+
+            destinationVC.postLocationString = sd.location
+            destinationVC.postTitle = sd.title
+            destinationVC.postDetail = sd.detail
+            destinationVC.currentImageId = sd.imageId
+            destinationVC.postCategory = "Recreation"
         }
-       
     }
-    
 }
 
 
@@ -76,15 +72,19 @@ extension PostViewController2: UICollectionViewDataSource, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CurrentActivityPostCell", for: indexPath) as! CategoryCollectionViewCell
-        let category = current[indexPath.item]
-        cell.category = category
+
+        cell.title = current[indexPath.item].title
+        cell.detail = current[indexPath.item].detail
+        cell.location = current[indexPath.item].location
+        cell.imageId = current[indexPath.item].imageId
+        
         return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: 100, height: 90)
-//    }
-//
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 200, height: 40)
+    }
+
     
     
     
@@ -105,7 +105,7 @@ extension PostViewController2: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        return 100
     }
 
 
@@ -118,13 +118,25 @@ class CategoryCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var container: UIView!
     @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var currentImage: UIImageView!
+    
+    
+    var title: String?
+    var detail: String?
+    var location: String?
+    var imageId: String? {
+        didSet {
+            print("imageId")
+            currentImage.image = UIImage(named: imageId!)
+        }
+    }
     
     var category: ActivityCategory! {
         didSet {
             self.update()
         }
     }
-    // Aktualisiere
+    
     func update(){
         let colors:[UIColor] = [#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)]
         let color = Int.random(in: 0..<colors.count)
@@ -143,6 +155,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
 class ActivityTabelViewCell: UITableViewCell {
     
     @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var categoryImage: UIImageView!
     
     var category: ActivityCategory! {
         didSet {
@@ -153,9 +166,15 @@ class ActivityTabelViewCell: UITableViewCell {
     func update() {
         if let category = category {
             categoryLabel.text = category.name
+            
+            let image = UIImage(named: category.name)
+            categoryImage.image = image
+            
         } else {
             print("ERRPR")
         }
+        
+        
     }
     
 }

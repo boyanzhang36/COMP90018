@@ -19,11 +19,13 @@ import FirebaseFirestoreSwift
 struct User: Codable, Equatable {
     
     var id = ""
-    var username: String
-    var email: String
+    var username: String = ""
+    var email: String = ""
     var pushId = ""
     var avatarLink = ""
-    var status: String
+    var status: String = ""
+    var location = ""
+    var intro = ""
     
     static var currentId: String {
         return Auth.auth().currentUser!.uid
@@ -40,6 +42,7 @@ struct User: Codable, Equatable {
                     // 将 dictionary 中的数据加载到 User 中
                     // userObject 就是 User 的实例，也就是 User.self
                     let userObject = try decoder.decode(User.self, from: dictionary)
+                    kCURRENTUSERNAME = userObject.username
                     return userObject
                 }catch{
                     print("Error decoding user fron user defaults!", error.localizedDescription)
@@ -48,6 +51,7 @@ struct User: Codable, Equatable {
         }
         return nil
     }
+    
     
     static func isSameUser (lhs: User, rhs: User) -> Bool {
         return lhs.id == rhs.id

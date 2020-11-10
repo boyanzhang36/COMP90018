@@ -7,12 +7,18 @@
 
 import UIKit
 
+
+
 class TabViewController: UIViewController {
     
     
-    @IBOutlet weak var contentView: UIView!
     
-        
+    
+    //
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var tabBarView: UIView!
+    
+    //
     @IBOutlet weak var feedBttn: UIButton!
     @IBOutlet weak var chatBttn: UIButton!
     @IBOutlet weak var addBttn: UIButton!  // special Tab Button
@@ -23,6 +29,7 @@ class TabViewController: UIViewController {
     @IBOutlet weak var chatImage: UIImageView!
     @IBOutlet weak var peopleImage: UIImageView!
     @IBOutlet weak var meImage: UIImageView!
+    @IBOutlet weak var addBackgroundImage: UIImageView!
     
     private var buttons: [UIButton]!
     private var buttonImages: [UIImageView]!
@@ -34,21 +41,25 @@ class TabViewController: UIViewController {
     var peopleViewController: UIViewController!
     var meViewController: UIViewController!
     var viewControllers: [UIViewController]!
+    var meNavigationController: UIViewController!
     
     private var selectedIndex: Int = 0
 
+   
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         feedViewController = storyboard.instantiateViewController(withIdentifier: "feedVC")
         chatViewController = storyboard.instantiateViewController(withIdentifier: "chatNavVC")
-//        addViewController = storyboard.instantiateViewController(withIdentifier: "addVC")// special Tab VC
+
         peopleViewController = storyboard.instantiateViewController(withIdentifier: "peopleNavVC")
         meViewController = storyboard.instantiateViewController(withIdentifier: "meVC")
-        viewControllers = [feedViewController, chatViewController, peopleViewController, meViewController]
+        meNavigationController = storyboard.instantiateViewController(withIdentifier: "meNC")
+        
+        
+        viewControllers = [feedViewController, chatViewController, peopleViewController, meNavigationController]
         
         buttons = [feedBttn, chatBttn, peopleBttn, meBttn]
         buttonImages = [feedImage, chatImage, peopleImage, meImage]
@@ -56,18 +67,12 @@ class TabViewController: UIViewController {
         
         // Init Setup
         tabBttnPressed(buttons[selectedIndex])
+        
+        // UI
+        addBackgroundImage.layer.cornerRadius = 8
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     @IBAction func tabBttnPressed(_ sender: UIButton) {
         let previousIndex = selectedIndex
@@ -95,10 +100,23 @@ class TabViewController: UIViewController {
         // Call the viewDidAppear method of the ViewController you are adding using didMove(toParentViewController: self).
         vc.didMove(toParent: self)
         
+        
+        
     }
     
     @IBAction func addBttnPressed(_ sender: UIButton) {
         
+    }
+    @IBOutlet weak var tabHeightConstraint: NSLayoutConstraint!
+    
+    public func hideTabBar() {
+        self.tabBarView.isHidden = true
+        self.tabHeightConstraint.constant = 0
+    }
+
+    public func showTabBar() {
+        self.tabBarView.isHidden = false
+        self.tabHeightConstraint.constant = 80
     }
     
 }

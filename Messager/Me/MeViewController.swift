@@ -7,75 +7,108 @@
 
 import UIKit
 import Firebase
+import FirebaseUI
 
-
-class MeViewController: UIViewController, UITableViewDelegate,UITableViewDataSource {
+class MeViewController: UIViewController, UITableViewDataSource,UIScrollViewDelegate {
     let db = Firestore.firestore()
     let storage = Storage.storage()
     
-  // data source of created activities
-    var activities = ["活动1","活动2","活动3","活动4","活动5","活动6","活动7","活动8"]
-    var imageofactivities = UIImage(named:"WechatIMG1.jpg")
+    // data source of activities
+    var createdLists: [ActivityData] = []
+    var joinedLists: [ActivityData] = []
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return activities.count
+        var count: Int?
+        if tableView == self.firstView{
+            count = createdLists.count
+        }
+        if tableView == self.secondView{
+            count = joinedLists.count
+        }
+        return count!
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CreatedCell", for: indexPath) as! CreatedCell
-        cell.activityLabel.text = activities[indexPath.row]
-        cell.dateLabel.text = "everyday is sunday"
-        cell.imageLabel.image = imageofactivities
-        return cell
+        var tableCell: UITableViewCell?
+        if tableView == self.firstView{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CreatedCell", for: indexPath) as! CreatedCell
+            cell.cellData = createdLists[indexPath.row]
+            tableCell = cell
+        }
+        if tableView == self.secondView{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "JoinedCell", for: indexPath) as! JoinedCell
+            cell.cellData = joinedLists[indexPath.row]
+            tableCell = cell
+        }
+        return tableCell ?? UITableViewCell()
     }
-    // data source of joined activities  BUG!!!
-    var joinedactivities = ["活动1","活动2","活动3","活动4","活动5","活动6","活动7","活动8"]
-    var joinedimageofactivities = UIImage(named:"WechatIMG2.jpg")
-    func joinedtableView(_ joinedtableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return joinedactivities.count
-    }
-    func joinedtableView(_ joinedtableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let joinedcell = joinedtableView.dequeueReusableCell(withIdentifier: "JoinedCell", for: indexPath) as! JoinedCell
-        joinedcell.activityLabel.text = joinedactivities[indexPath.row]
-        joinedcell.dateLabel.text = "everyday is sunday"
-        joinedcell.imageLabel.image = joinedimageofactivities
-        return joinedcell
-    }
+    
     
     // change table views in personal page
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var firstView: UITableView!
     @IBOutlet weak var secondView: UITableView!
-    @IBAction func indexChanged(sender: UISegmentedControl) {
-           switch segmentedControl.selectedSegmentIndex
-           {
-           case 0:
-            firstView.isHidden = false
-            secondView.isHidden = false
-           case 1:
-            firstView.isHidden = false
-            secondView.isHidden = false
-           default:
-               break;
-           }
-       }
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBAction func changePage(_ sender: UISegmentedControl) {
+        
+        let x = CGFloat(sender.selectedSegmentIndex) * scrollView.bounds.width
+        let offset = CGPoint(x: x, y: 0)
+        scrollView.setContentOffset(offset, animated: true)
+    }
+    
+    //automatically update segment index
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let index = Int(scrollView.contentOffset.x / firstView.bounds.width)
+        print(firstView.bounds.width)
+        segmentedControl.selectedSegmentIndex = index
+        print(segmentedControl.selectedSegmentIndex)
+        print(scrollView.contentOffset)
+        
+    }
+    
     @IBOutlet weak var PhotoContainer: UIView!
-    private func setUI(){
-        PhotoContainer.layer.cornerRadius = PhotoContainer.frame.size.width / 2
-        PhotoContainer.clipsToBounds = true
-        firstView.layer.cornerRadius = 20
-        firstView.clipsToBounds = true
-        secondView.layer.cornerRadius = 20
-        secondView.clipsToBounds = true
+    
+    // MARK:- View Controller LifeCycle
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        super.viewWillAppear(animated)
+        self.loadInfo()
+        createdLists = []
+        joinedLists = []
+        self.getActivities()
+        // toggle tabbar
+        print("😡")
+        if let vcp = self.navigationController?.parent as? TabViewController {
+            print("😃")
+            vcp.showTabBar()
+        }
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        super.viewWillDisappear(animated)
+        
+        // toggle tabbar
+        print("😡")
+        if let vcp = self.navigationController?.parent as? TabViewController {
+            print("😃")
+            vcp.hideTabBar()
+        }
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         //setUI()
         //Fatal error: Unexpectedly found nil while implicitly unwrapping an Optional value: file
         // Do any additional setup after loading the view.
-        loadInfo()
+        //self.loadInfo()
+        //self.getActivities()
+        
     }
     
-
+    // MARK:-
+    
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userLocation: UILabel!
@@ -83,63 +116,94 @@ class MeViewController: UIViewController, UITableViewDelegate,UITableViewDataSou
     func loadInfo() {
         let user = Auth.auth().currentUser
         if let user = user {
-            let uid = user.uid
-            let userInfo = db.collection("UserInfo")
-            let query = userInfo.whereField("userID", isEqualTo: uid)
+            let userInfo = db.collection("User")
+            let query = userInfo.whereField("id", isEqualTo: user.uid)
             query.getDocuments { [self] (querySnapshot, error) in
-                        if let error = error {
-                            print("Error getting documents: \(error)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                let data = document.data()
-                                let image = data["userImage"] as! String
-                                let intro = data["userIntro"] as! String
-                                let location = data["userLocation"] as! String
-                                self.userIntro.text = intro
-                                self.userLocation.text = location
-                                let cloudFileRef = self.storage.reference(withPath: "user-photoes/"+image)
-                                            print("user-photoes/"+image)
-                                            cloudFileRef.getData(maxSize: 1*1024*1024) { (data, error) in
-                                                if let error = error {
-                                                    print(error.localizedDescription)
-                                                } else {
-                                                    self.userImage.image = UIImage(data: data!)
-                                                }
-                                            }
-
-                            }
-                        }
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        let image = data["avatarLink"] as! String
+                        let intro = data["intro"] as! String
+                        let location = data["location"] as! String
+                        let name = data["username"] as! String
+                        self.userIntro.text = intro
+                        self.userLocation.text = location
+                        self.userName.text = name
+                        let cloudFileRef = self.storage.reference(withPath: "user-photoes/"+image)
+                        self.userImage.sd_setImage(with: cloudFileRef)
+                        print("TEST:      loooking foooooor imaaaaaaage")
                     }
-            let userAuth = db.collection("User")
-            let queryUser = userAuth.whereField("id", isEqualTo: uid)
-            queryUser.getDocuments { [self] (querySnapshot, error) in
-                        if let error = error {
-                            print("Error getting documents: \(error)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                let data = document.data()
-                                let name = data["username"] as! String
-                                self.userName.text = name
-                            }
-                        }
-                    }
-
+                }
+            }
         }
     }
+    
+    func getActivities() {
+        self.createdLists = []
+        self.joinedLists = []
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd"
+        //获取数据
+        guard let id = Auth.auth().currentUser?.uid else { return }
+        db.collection(K.FStore.act).getDocuments() { [self] (querySnapshot, error) in
+            if let e = error{
+                print("error happens in getDocuments\(e)" )
+            }
+            else{
+                if let snapShotDocuments = querySnapshot?.documents{
+                    for doc in snapShotDocuments{
+                        let data = doc.data()
+                        let starterID = data["actCreatorId"] as? String
+                        let joinUsers = data["join"] as? [String]
+                        let title = data[K.Activity.title] as? String
+                        let image = data[K.Activity.image] as? String
+                        let activityID = doc.documentID as? String
+                        let dateLong = data["startDate"] as? Timestamp
+                        let date = dateLong?.dateValue() as? Date
+                        var dateString = ""
+                        if date != nil {
+                            dateString = df.string(from: date!)
+                        }
+                        
+                        
+                        let feedData = ActivityData(title: title ?? "", image: image ?? "error.jpg", date: dateString, activityID: activityID ?? "")
+                        if id == starterID {
+                            self.createdLists.append(feedData)
+                        }
+                        
+                        if let joinCount = joinUsers?.count {
+                            if joinCount > 1 {
+                                if ((joinUsers?[1...].contains(id)) != nil && joinUsers![1...].contains(id)) {
+                                    self.joinedLists.append(feedData)
+                                }
+                            }
+                        }
+                    }
+                    self.firstView.reloadData()
+                    self.secondView.reloadData()
+                }
+            }
+            
+        }
+    }
+    
+}
 
-    @IBAction func exitToHere(sender: UIStoryboardSegue){
-        //
-    }
+extension MeViewController : UITableViewDelegate {
     
-    @IBAction func saveAndExit(sender: UIStoryboardSegue){
-        // save
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let secondVC = storyboard.instantiateViewController(identifier: "ActivityDetail") as ActivityDetailController
 
+        if tableView == self.firstView{
+            secondVC.activityID = createdLists[indexPath.row].activityID
+            // show(secondVC, sender: self)
+        }
+        if tableView == self.secondView {
+            secondVC.activityID = joinedLists[indexPath.row].activityID
+        }
+        self.navigationController?.show(secondVC, sender: self)
     }
-    
-    @IBAction func configClicked(_ sender: Any) {
-        let sb = UIStoryboard(name: "Main", bundle:nil)
-        let vc = sb.instantiateViewController(withIdentifier: "SecondViewController")
-        self.present(vc, animated: true, completion: nil)
-    }
-    
 }
