@@ -9,11 +9,14 @@ import UIKit
 import Firebase
 import UITextView_Placeholder
 import CoreLocation
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+=======
 import IQKeyboardManagerSwift
 import FirebaseFirestore
 
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
 
-class PostViewController: UIViewController {
+class PostViewController1: UIViewController {
     
     // Pop Up View
     var popup: UIView!
@@ -26,9 +29,14 @@ class PostViewController: UIViewController {
     var postDetail: String?
     var postLocation: CLLocation?
     var postLocationString: String?
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+    var postActStartDate: Date?
+    var postActEndDate: Date?
+=======
     
     var currentImageId: String?
     
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
     
     
     // IBOutlets
@@ -55,6 +63,11 @@ class PostViewController: UIViewController {
         }
     }
     
+    
+    @IBOutlet weak var startDateField: UITextField!
+    @IBOutlet weak var endDateField: UITextField!
+    
+    
     // _
     private let imagePicker = UIImagePickerController()
     private let db = Firestore.firestore()
@@ -62,6 +75,10 @@ class PostViewController: UIViewController {
     
     var startDatePicker = UIDatePicker()
     var endDatePicker = UIDatePicker()
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+
+=======
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
     
     var postActStartDate: Date?
     var postActEndDate: Date?
@@ -84,6 +101,11 @@ class PostViewController: UIViewController {
         detailTextView.text = "Activity Details here..."
         detailTextView.textColor = UIColor.lightGray
         
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+//        detailTextView.becomeFirstResponder()
+//        detailTextView.selectedTextRange = detailTextView.textRange(from: detailTextView.beginningOfDocument, to: detailTextView.beginningOfDocument)
+=======
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
         
         // Date Pickers
         startDatePicker.datePickerMode = .dateAndTime
@@ -98,6 +120,12 @@ class PostViewController: UIViewController {
         startDatePicker.addTarget(self, action: #selector(startDateChanged(datePicker:)), for: .valueChanged)
         endDatePicker.addTarget(self, action: #selector(endDateChanged(datePicker:)), for: .valueChanged)
         
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+        // __. init Start time and show on screen
+        var nowDate = Date().advanced(by: 60*60*3)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, d MMM yyyy HH:00"
+=======
         startDatePicker.minuteInterval = 15
         endDatePicker.minuteInterval = 15
         
@@ -112,10 +140,21 @@ class PostViewController: UIViewController {
         
 //        nowDate = Date().nearestHour().advanced(by: 60*60*2)
         
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
         startDateField.text = dateFormatter.string(from: nowDate)
         postActStartDate = nowDate
         
         nowDate = nowDate.advanced(by: 60*60)
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+        endDateField.text = dateFormatter.string(from: nowDate)
+        postActEndDate = nowDate
+        
+        startDatePicker.minimumDate = Date()
+        endDatePicker.minimumDate = nowDate.advanced(by: -60*60)
+        
+        startDatePicker.minuteInterval = 15
+        endDatePicker.minuteInterval = 15
+=======
 //        endDateField.text = dateFormatter.string(from: nowDate)
         postActEndDate = nowDate
         
@@ -137,7 +176,32 @@ class PostViewController: UIViewController {
             self.categoryLabel.text = postCat
         }
         
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
     }
+    
+    @objc func startDateChanged(datePicker: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, d MMM yyyy HH:mm"
+        
+        startDateField.text = dateFormatter.string(from: datePicker.date)
+        
+        // limit startPicker range
+        endDatePicker.minimumDate = startDatePicker.date.advanced(by: 60*15)
+        postActStartDate = datePicker.date
+        
+        // TODO: 如果start date > end date， 自动更新end date
+    }
+    
+    @objc func endDateChanged(datePicker: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, d MMM yyyy HH:mm"
+        
+        endDateField.text = dateFormatter.string(from: datePicker.date)
+        
+        postActEndDate = datePicker.date
+    }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
@@ -208,6 +272,10 @@ class PostViewController: UIViewController {
     }
     
     @IBAction func postBttnTapped(_ sender: Any) {
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+
+=======
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
         
         self.view.endEditing(true)
         guard let image = postImage else {
@@ -230,6 +298,10 @@ class PostViewController: UIViewController {
         }
         self.showDino()
         
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+            
+=======
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
         let actRef = db.collection(K.FStore.act).document()  // new Activity Document reference
         let storageRef = storage.reference()
         let activityImageRef = storageRef.child("activity-images")
@@ -253,16 +325,26 @@ class PostViewController: UIViewController {
         }
         
         func uploadActivity() {
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+//            let act = Activity(uid: actRef.documentID, userId: userId,
+//                               createDate: Date().timeIntervalSince1970, actTitle: titleText, actDetail: detailText,
+//                               imageId: actRef.documentID)
+=======
             
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
             var geoPoint: GeoPoint?
             if let location = postLocation {
                 geoPoint = GeoPoint.init(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             }
             let readDic = [userId: 1]
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+            actRef.setData([
+=======
             let join = [userId]
             
             actRef.setData([
                 "actCreatorId": userId,
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
                 "actDetail": detailText,
                 "actTitle": titleText,
                 "createDate": Date() as Any,
@@ -272,12 +354,18 @@ class PostViewController: UIViewController {
                 "locationString": postLocationString as Any,
                 "category": postCategory as Any,
                 "imageId": actRef.documentID,
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+                "read_dic": readDic as Any
+            ])
+
+=======
                 "read_dic": readDic as Any,
                 "join": join as Any,
                 "actStatus": 0, //0: awaiting, 1: ready, 2: finish
                 "actGroupSize": 5,
             ])
             
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
             print("Activity Document added with ID: \(actRef.documentID)")
         }
         
@@ -285,6 +373,28 @@ class PostViewController: UIViewController {
         uploadImage(from: image, to: actRef.documentID)
         
         
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+        // Segue back to Activity View
+        self.presentingViewController?.presentingViewController?.dismiss(animated: false, completion: nil)
+        self.dismiss(animated: true, completion: nil)
+        
+
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toPost2" {
+            let destinationVC = segue.destination as! PostViewController2
+            destinationVC.postImage = self.postImage
+            destinationVC.postTitle = self.postTitle
+            destinationVC.postDetail = self.postDetail
+        }
+        if segue.identifier == "toLocation" {
+            let destinationVC = segue.destination as! PostLocationViewController
+            destinationVC.delegate = self
+        }
+        
+=======
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
     }
     
     
@@ -301,7 +411,7 @@ class PostViewController: UIViewController {
 
 
 // MARK:- Delegate for Image Picker
-extension PostViewController:  UIImagePickerControllerDelegate {
+extension PostViewController1:  UIImagePickerControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
@@ -320,7 +430,11 @@ extension PostViewController:  UIImagePickerControllerDelegate {
 }
 
 // MARK:- Select Location Delegate
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+extension PostViewController1: PostLocationDelegate {
+=======
 extension PostViewController: PostLocationDelegate {
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
     func updateLocation(location: CLLocation?, locString: String?) {
         print("!!!! Update Location Called")
         
@@ -335,13 +449,13 @@ extension PostViewController: PostLocationDelegate {
 }
 
 // MARK:- Navigation Controller Delegate
-extension PostViewController: UINavigationControllerDelegate {
+extension PostViewController1: UINavigationControllerDelegate {
     
 }
 
 
 // MARK:-
-extension PostViewController: UITextViewDelegate {
+extension PostViewController1: UITextViewDelegate {
     
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -354,7 +468,11 @@ extension PostViewController: UITextViewDelegate {
         // If updated text view will be empty, add the placeholder
         // and set the cursor to the beginning of the text view
         if updatedText.isEmpty {
+<<<<<<< HEAD:Messager/Controller/PostViewController1.swift
+
+=======
             
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3:Messager/Controller/PostViewController.swift
             textView.text = "Activity Details here..."
             textView.textColor = UIColor.lightGray
             

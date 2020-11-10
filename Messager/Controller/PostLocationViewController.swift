@@ -17,7 +17,10 @@ protocol PostLocationDelegate {
 
 
 class PostLocationViewController: UIViewController {
+<<<<<<< HEAD
+=======
     
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3
     private enum CellReuseID: String {
         case resultCell
     }
@@ -28,22 +31,35 @@ class PostLocationViewController: UIViewController {
         }
     }
     
+<<<<<<< HEAD
+=======
     @IBOutlet weak var searchBar: UISearchBar!
     private var suggestionController: SuggestionsTableViewController!
     private var searchController: UISearchController!
 
     
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3
     var locationString: String?
     var locationCoord: CLLocation?
     var delegate: PostLocationDelegate?
     
     @IBOutlet weak var map: MKMapView!
     
+<<<<<<< HEAD
+    var locationManager = CLLocationManager()
+    
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    private var suggestionController: SuggestionsTableViewController!
+    private var searchController: UISearchController!
+=======
     private var locationManager = CLLocationManager()
     private var boundingRegion: MKCoordinateRegion = MKCoordinateRegion(MKMapRect.world)
     
     @IBOutlet weak var tableView: UITableView!
     
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3
     
     private var foregroundRestorationObserver: NSObjectProtocol?
 
@@ -58,6 +74,24 @@ class PostLocationViewController: UIViewController {
     
     // MARK:-
     
+<<<<<<< HEAD
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        locationManager.delegate = self
+        
+        suggestionController = SuggestionsTableViewController(style: .grouped)
+        suggestionController.tableView.delegate = self
+        
+        searchController = UISearchController(searchResultsController: suggestionController)
+        searchController.searchResultsUpdater = suggestionController
+        
+        let name = UIApplication.willEnterForegroundNotification
+        foregroundRestorationObserver = NotificationCenter.default.addObserver(forName: name, object: nil, queue: nil, using: { [unowned self] (_) in
+            // Get a new location when returning from Settings to enable location services.
+//            self.requestLocation()
+        })
+    }
+=======
 //    override func awakeFromNib() {
 //        super.awakeFromNib()
 //        locationManager.delegate = self
@@ -74,6 +108,7 @@ class PostLocationViewController: UIViewController {
 //            self.requestLocation()
 //        })
 //    }
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +118,8 @@ class PostLocationViewController: UIViewController {
         mapSetup()
         
         longPressSetup()
+<<<<<<< HEAD
+=======
         
         searchSetup()
     }
@@ -100,6 +137,7 @@ class PostLocationViewController: UIViewController {
          presented view controller hierarchy.
          */
         definesPresentationContext = true
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3
     }
     
     func locationManagerSetup() {
@@ -136,12 +174,21 @@ class PostLocationViewController: UIViewController {
         locationCoord = nil
         map.removeAnnotations(map.annotations)
     }
+<<<<<<< HEAD
+=======
     
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3
     @IBAction func useCurLocationTapped(_ sender: UIButton) {
         
         // TODO: Check if location Service is turned on, if not, show alert.
         locationManager.requestWhenInUseAuthorization()
+<<<<<<< HEAD
+        
         locationManager.requestLocation()
+        
+=======
+        locationManager.requestLocation()
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3
     }
     
     @IBAction func confirmBttnTapped(_ sender: UIButton) {
@@ -150,10 +197,13 @@ class PostLocationViewController: UIViewController {
     }
     
     
+<<<<<<< HEAD
+=======
     
 }
 
 extension PostLocationViewController {
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3
     func updateMap(_ location: CLLocation) {
         
         // Span controls the Zoom of the map
@@ -253,6 +303,8 @@ extension PostLocationViewController {
     }
 }
 
+<<<<<<< HEAD
+=======
 extension PostLocationViewController {
     private func requestLocation() {
         guard CLLocationManager.locationServicesEnabled() else {
@@ -336,6 +388,7 @@ extension PostLocationViewController {
     }
 }
 
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3
 // MARK:-
 extension PostLocationViewController: CLLocationManagerDelegate {
     
@@ -379,6 +432,19 @@ extension PostLocationViewController {
 // MARK:- TableView
 extension PostLocationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+<<<<<<< HEAD
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = UITableViewCell()
+        return cell
+    }
+    
+    
+}
+=======
         return places?.count ?? 0
     }
     
@@ -429,3 +495,4 @@ extension MKPlacemark {
         return CNPostalAddressFormatter.string(from: postalAddress, style: .mailingAddress).replacingOccurrences(of: "\n", with: " ")
     }
 }
+>>>>>>> 7ce313aaa1b6e71f525f03e397e6eb471d904ad3
